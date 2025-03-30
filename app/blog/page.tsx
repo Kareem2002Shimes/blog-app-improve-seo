@@ -2,8 +2,18 @@ import { BlogPost } from "@/types";
 import BlogItem from "../_components/BlogItem";
 
 async function getPosts(): Promise<BlogPost[]> {
-  const res = await fetch("http://localhost:3000/api/blog");
-  return res.json();
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/blog`);
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch posts: ${res.statusText}`);
+    }
+
+    return res.json();
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    return []; // Return an empty array to prevent crashing
+  }
 }
 
 export default async function Blog() {

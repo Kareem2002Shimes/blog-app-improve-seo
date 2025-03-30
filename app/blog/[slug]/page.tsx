@@ -3,17 +3,28 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 
 async function getPost(slug: string): Promise<BlogPost | null> {
-  const res = await fetch(`http://localhost:3000/api/blog/${slug}`);
-  if (!res.ok) return null;
-  return res.json();
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/blog/${slug}`
+    );
+    if (!res.ok) {
+      throw new Error(`Failed to fetch post: ${res.statusText}`);
+    }
+
+    return res.json();
+  } catch (error) {
+    console.error("Error fetching post:", error);
+    return null; // Return an empty array to prevent crashing
+  }
 }
 
 export default async function BlogPostPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const post = await getPost(params.slug);
+  const { slug } = await params;
+  const post = await getPost(slug);
 
   if (!post) return notFound();
   return (
