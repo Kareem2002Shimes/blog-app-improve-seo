@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { BlogPost } from "@/types";
 import BlogItem from "./_components/BlogItem";
+import Image from "next/image";
 
 async function getPosts(): Promise<BlogPost[]> {
   const res = await fetch("http://localhost:3000/api/blog");
@@ -30,10 +31,12 @@ export default async function Home() {
                 Discover
               </Link>
             </div>
-            <img
+            <Image
               src="/images/hero-img.jpg"
               alt="Blog Hero"
               className="rounded-lg"
+              width={800}
+              height={600}
             />
           </div>
 

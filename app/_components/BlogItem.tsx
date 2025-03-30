@@ -1,4 +1,5 @@
 import { BlogPost } from "@/types";
+import Image from "next/image";
 import Link from "next/link";
 
 function BlogItem({ post }: { post: BlogPost }) {
@@ -7,9 +8,11 @@ function BlogItem({ post }: { post: BlogPost }) {
       key={post.id}
       className="border border-slate-700 rounded-lg shadow-lg overflow-hidden"
     >
-      <img
+      <Image
         src={post.image}
         alt={post.title}
+        width={500}
+        height={300}
         className="w-full h-48 object-cover"
       />
       <div className="p-4">
